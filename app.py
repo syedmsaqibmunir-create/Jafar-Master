@@ -1,45 +1,45 @@
 import streamlit as st
 
-# سیٹ اپ: اردو اور لے آؤٹ
-st.set_page_config(page_title="جفر گرینڈ ماسٹر", layout="wide")
+# سیٹ اپ: صاف ستھرا ڈیزائن
+st.set_page_config(page_title="جفر گرینڈ ماسٹر", layout="centered")
+
 st.markdown("""
 <style>
-    body { direction: rtl; text-align: right; font-family: Tahoma; }
-    .stApp { background-color: #0f172a; color: white; }
-    h1 { color: #fbbf24; text-align: center; }
+    body { direction: rtl; text-align: right; }
+    h1 { color: #004a99; text-align: center; }
+    .stApp { background-color: #f9f9f9; }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("علمِ جفر گرینڈ ماسٹر: مکمل ڈیش بورڈ")
+st.title("علمِ جفر گرینڈ ماسٹر")
 
-# سائیڈ بار مینو
+# مینیو کے آپشنز
 menu = ["زائچہ", "سوال", "موکل", "نقش"]
-choice = st.sidebar.selectbox("مرکزی مینو", menu)
+choice = st.sidebar.selectbox("مینو منتخب کریں", menu)
 
-# لاجک
+# ہر مینیو کے لیے الگ لاجک
 if choice == "زائچہ":
-    st.header("ذاتی زائچہ")
-    name = st.text_input("سائل کا نام درج کریں")
+    st.header("زائچہ سازی")
+    name = st.text_input("سائل کا نام لکھیں")
     if st.button("زائچہ نکالیں"):
-        st.success(f"{name} کا زائچہ تیار ہے...")
-        st.write("ماضی: توازن اور محنت۔")
-        st.write("حال: کامیابی کے قریب۔")
-        st.write("مستقبل: روشن امکانات۔")
+        st.write(f"سائل **{name}** کے لیے جفری حساب:")
+        st.success("آپ کا زائچہ: ماضی میں سکون، حال میں ترقی، مستقبل میں کامیابی!")
 
 elif choice == "سوال":
     st.header("سوال و جواب")
-    q = st.text_input("اپنا سوال یہاں لکھیں")
+    q = st.text_input("اپنا سوال درج کریں")
     if st.button("جواب حاصل کریں"):
-        st.info("سطرِ ناطقہ کا تجزیہ: کام جلد تکمیل پذیر ہوگا۔")
+        st.write("سطرِ ناطقہ کا تجزیہ کیا جا رہا ہے...")
+        st.info("حتمی جواب: آپ کا کام جلد تکمیل کو پہنچے گا، ان شاء اللہ۔")
 
 elif choice == "موکل":
     st.header("موکلِ ساعت")
-    st.write("اس وقت کے موکل: **ہیطائیل**")
-    st.warning("یہ ساعت تسخیر کے لیے انتہائی طاقتور ہے۔")
+    st.write("موجودہ ساعت کے موکل:")
+    st.warning("**ہیطائیل** - یہ ساعت برائے تسخیر اور کامیابی انتہائی موثر ہے۔")
 
 elif choice == "نقش":
-    st.header("نقشِ سازی")
-    st.write("اپنی مرضی کا نقش منتخب کریں:")
-    if st.button("نقشِ مثلث تیار کریں"):
-        st.image("https://upload.wikimedia.org/wikipedia/commons/e/e9/Magic_square.svg", width=200)
-        st.write("نقشِ مثلث فتحِ مبین کے لیے تیار ہے۔")
+    st.header("نقش سازی")
+    if st.button("نقش مثلث برائے فتح"):
+        st.write("نقش تیار ہے:")
+        st.code("۴  ۹  ۲\n۳  ۵  ۷\n۸  ۱  ۶")
+        st.write("اس نقش کو زعفران سے لکھ کر اپنے پاس رکھیں۔")
