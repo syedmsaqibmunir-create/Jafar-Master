@@ -1,30 +1,45 @@
 import streamlit as st
 
-st.set_page_config(page_title="جفر گرینڈ ماسٹر", layout="centered")
-
-# اردو کے لیے سیدھی لکھائی
+# اردو کے لیے اسٹائلنگ
 st.markdown("""
 <style>
-    body, .stApp { direction: rtl; text-align: right; font-family: sans-serif; }
-    h1 { color: #facc15; }
+    body { direction: rtl; text-align: right; }
+    .stApp { font-family: Tahoma; }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("علمِ جفر گرینڈ ماسٹر")
+st.title("جفر گرینڈ ماسٹر: مکمل سسٹم")
 
-# مینو (Tabs)
-tab1, tab2, tab3, tab4 = st.tabs(["زائچہ", "سوال", "موکل", "نقش"])
+# مینو
+menu = ["زائچہ", "سوال", "موکل", "نقش"]
+choice = st.sidebar.selectbox("سیکشن منتخب کریں", menu)
 
-with tab1:
+# ابجد کا انجن (مثالی ڈیٹا)
+def get_abjad(name):
+    # یہاں آپ اپنا مکمل ابجدی فارمولا لگا سکتے ہیں
+    return sum(len(n) for n in name) * 12 
+
+if choice == "زائچہ":
     st.header("ذاتی زائچہ")
     name = st.text_input("سائل کا نام")
     if st.button("زائچہ نکالیں"):
-        st.write("آپ کا زائچہ تیار ہو رہا ہے...")
+        if name:
+            st.write(f"سائل: {name}")
+            st.info("حسابِ جفر جاری ہے...")
+            st.write("ماضی: آپ کی زندگی میں توازن کی کمی رہی۔")
+            st.write("حال: مشتری کا اثر ہے، ترقی کا وقت ہے۔")
+            st.write("مستقبل: کامیابی کے آثار نمایاں ہیں۔")
 
-with tab2:
-    st.header("سوال و جواب")
-    ques = st.text_input("اپنا سوال لکھیں")
-    if st.button("جواب حاصل کریں"):
-        st.write("جفری انجن کے مطابق جواب...")
+elif choice == "سوال":
+    st.header("جفری سوال و جواب")
+    q = st.text_input("اپنا سوال لکھیں")
+    if st.button("جواب نکالیں"):
+        st.write("سطرِ ناطقہ کا حتمی جواب: 'کامیابی قریب ہے'")
 
-# ... اسی طرح باقی ٹیبز ...
+elif choice == "موکل":
+    st.header("موکلِ ساعت")
+    st.write("اس وقت کے موکل: **ہیطائیل** - یہ ساعت برائے تسخیرِ قلوب ہے۔")
+
+elif choice == "نقش":
+    st.header("نقشِ سازی")
+    st.write("نقشِ مثلث برائے فتح تیار کر دیا گیا ہے۔ اسے زعفران سے لکھیں۔")
