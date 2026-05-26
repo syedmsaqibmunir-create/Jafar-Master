@@ -1,45 +1,49 @@
 import streamlit as st
+import datetime
 
-# سیٹ اپ: صاف ستھرا ڈیزائن
+# ڈیزائن کی سیٹنگ
 st.set_page_config(page_title="جفر گرینڈ ماسٹر", layout="centered")
+st.title("علمِ جفر گرینڈ ماسٹر: پروفیشنل سسٹم")
 
-st.markdown("""
-<style>
-    body { direction: rtl; text-align: right; }
-    h1 { color: #004a99; text-align: center; }
-    .stApp { background-color: #f9f9f9; }
-</style>
-""", unsafe_allow_html=True)
+# ساعت کا خود کار حساب (سادہ فنکشن)
+def get_current_saat():
+    hour = datetime.datetime.now().hour
+    # یہ ایک مثالی لاجک ہے، آپ اسے اپنے حساب سے تبدیل کر سکتے ہیں
+    saat_list = ["زحل", "مشتری", "مریخ", "شمس", "زہرہ", "عطارد", "قمر"]
+    return saat_list[hour % 7]
 
-st.title("علمِ جفر گرینڈ ماسٹر")
+# مینو
+choice = st.sidebar.selectbox("مینو", ["زائچہ", "سوال", "موکل", "نقش"])
 
-# مینیو کے آپشنز
-menu = ["زائچہ", "سوال", "موکل", "نقش"]
-choice = st.sidebar.selectbox("مینو منتخب کریں", menu)
-
-# ہر مینیو کے لیے الگ لاجک
 if choice == "زائچہ":
-    st.header("زائچہ سازی")
-    name = st.text_input("سائل کا نام لکھیں")
-    if st.button("زائچہ نکالیں"):
-        st.write(f"سائل **{name}** کے لیے جفری حساب:")
-        st.success("آپ کا زائچہ: ماضی میں سکون، حال میں ترقی، مستقبل میں کامیابی!")
+    st.header("ذاتی زائچہ فارم")
+    with st.form("zaircha_form"):
+        name = st.text_input("سائل کا نام")
+        mother_name = st.text_input("والدہ کا نام")
+        submit = st.form_submit_button("زائچہ نکالیں")
+        if submit:
+            st.write(f"سائل: {name} بن/بنت {mother_name}")
+            st.success("آپ کا زائچہ تیار ہو رہا ہے...")
 
 elif choice == "سوال":
-    st.header("سوال و جواب")
-    q = st.text_input("اپنا سوال درج کریں")
-    if st.button("جواب حاصل کریں"):
-        st.write("سطرِ ناطقہ کا تجزیہ کیا جا رہا ہے...")
-        st.info("حتمی جواب: آپ کا کام جلد تکمیل کو پہنچے گا، ان شاء اللہ۔")
+    st.header("سوالِ جفر")
+    with st.form("question_form"):
+        q = st.text_area("اپنا سوال درج کریں")
+        submit = st.form_submit_button("جواب حاصل کریں")
+        if submit:
+            st.info(f"سوال: {q}")
+            st.write("سطرِ ناطقہ کا تجزیہ جاری ہے...")
 
 elif choice == "موکل":
     st.header("موکلِ ساعت")
-    st.write("موجودہ ساعت کے موکل:")
-    st.warning("**ہیطائیل** - یہ ساعت برائے تسخیر اور کامیابی انتہائی موثر ہے۔")
+    st.write(f"موجودہ وقت: {datetime.datetime.now().strftime('%H:%M')}")
+    st.write(f"موجودہ ساعت: **{get_current_saat()}**")
+    st.warning("اس ساعت کے موکلِ خاص کا عمل جاری ہے۔")
 
 elif choice == "نقش":
-    st.header("نقش سازی")
-    if st.button("نقش مثلث برائے فتح"):
-        st.write("نقش تیار ہے:")
-        st.code("۴  ۹  ۲\n۳  ۵  ۷\n۸  ۱  ۶")
-        st.write("اس نقش کو زعفران سے لکھ کر اپنے پاس رکھیں۔")
+    st.header("نقش سازی فارم")
+    with st.form("naqsh_form"):
+        maqsad = st.selectbox("مقصد منتخب کریں", ["محبت", "رزق", "فتح"])
+        submit = st.form_submit_button("نقش تیار کریں")
+        if submit:
+            st.write(f"مقصد: {maqsad} کے لیے نقشِ مثلث تیار ہے۔")
