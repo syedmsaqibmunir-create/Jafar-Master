@@ -14,12 +14,16 @@ st.title("علمِ جفر گرینڈ ماسٹر")
 
 tabs = st.tabs(["زائچہ", "سوال", "ساعت", "نقش", "ابجد"])
 
-with tabs[0]: # زائچہ
+with tabs[0]: # زائچہ کا ٹیب
     n = st.text_input("سائل کا نام")
     m = st.text_input("والدہ کا نام")
+    
     if st.button("زائچہ نکالیں"):
-        st.session_state.zaicha_res = sum(abjad.get(c, 0) for c in n+m)
-    st.write(f"کل مجموعہ: {st.session_state.zaicha_res}")
+        # یہاں حساب کریں
+        st.session_state.total_res = sum(abjad.get(c, 0) for c in n+m)
+    
+    # یہ لائن وہ ہے جو آپ کو رزلٹ دکھائے گی اور غائب نہیں ہونے دے گی
+    st.write(f"کل مجموعہ: {st.session_state.total_res}")
 
 with tabs[1]: # سوال
     q = st.text_input("اپنا سوال")
