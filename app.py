@@ -1,9 +1,9 @@
 import streamlit as st
 import datetime
 
-# سیشن سٹیٹ کا استعمال تاکہ ڈیٹا غائب نہ ہو
-if 'zaicha_res' not in st.session_state: st.session_state.zaicha_res = ""
-if 'q_res' not in st.session_state: st.session_state.q_res = ""
+# سیشن سٹیٹ کا محفوظ آغاز
+if 'total_res' not in st.session_state: st.session_state.total_res = 0
+if 'q_res' not in st.session_state: st.session_state.q_res = 0
 
 # ابجدِ قمری
 abjad = {'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ہ': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ی': 10, 'ک': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000}
@@ -14,15 +14,11 @@ st.title("علمِ جفر گرینڈ ماسٹر")
 
 tabs = st.tabs(["زائچہ", "سوال", "ساعت", "نقش", "ابجد"])
 
-with tabs[0]: # زائچہ کا ٹیب
+with tabs[0]: # زائچہ
     n = st.text_input("سائل کا نام")
     m = st.text_input("والدہ کا نام")
-    
     if st.button("زائچہ نکالیں"):
-        # یہاں حساب کریں
         st.session_state.total_res = sum(abjad.get(c, 0) for c in n+m)
-    
-    # یہ لائن وہ ہے جو آپ کو رزلٹ دکھائے گی اور غائب نہیں ہونے دے گی
     st.write(f"کل مجموعہ: {st.session_state.total_res}")
 
 with tabs[1]: # سوال
@@ -31,11 +27,9 @@ with tabs[1]: # سوال
         st.session_state.q_res = sum(abjad.get(c, 0) for c in q)
     st.write(f"سطرِ ناطقہ کا عدد: {st.session_state.q_res}")
 
-with tabs[2]: # ساعت (درست فارمولا)
-    st.header("ساعت کا درست حساب")
-    # موجودہ وقت کے حساب سے ساعت کا تعین (سادہ جفری کلیہ)
+with tabs[2]: # ساعت
+    st.header("ساعت اور موکل")
     current_hour = datetime.datetime.now().hour
-    # اب یہ فارمولا ہر وقت کے حساب سے تبدیل ہوگا
     idx = (current_hour + 6) % 7 
     st.metric("موجودہ ساعت", saat_names[idx])
     st.metric("موجودہ موکل", muwakil[idx])
