@@ -1,58 +1,43 @@
 import streamlit as st
 import datetime
 
-# 1. ابجدِ قمری کی ڈکشنری
-abjad_qamari = {
-    'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ہ': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ی': 10,
-    'ک': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100,
-    'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000
-}
+# ابجد اور ساعت کا ڈیٹا
+abjad = {'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ہ': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ی': 10, 'ک': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000}
+saat_names = ["زحل", "مشتری", "مریخ", "شمس", "زہرہ", "عطارد", "قمر"]
 
-# 2. ساعت اور موکل کا ڈیٹا
-saat_data = {
-    0: {"ساعت": "زحل", "موکل": "کسفیائیل"}, 1: {"ساعت": "مشتری", "موکل": "صرفیائیل"},
-    2: {"ساعت": "مریخ", "موکل": "سمسمائیل"}, 3: {"ساعت": "شمس", "موکل": "رقیائیل"},
-    4: {"ساعت": "زہرہ", "موکل": "عنائیل"}, 5: {"ساعت": "عطارد", "موکل": "میخائیل"},
-    6: {"ساعت": "قمر", "موکل": "جبرائیل"}
-}
+st.set_page_config(layout="wide")
+st.title("علم جفر گرینڈ ماسٹر (پروفیشنل)")
 
-def calculate_abjad(text):
-    return sum(abjad_qamari.get(char, 0) for char in text)
+tabs = st.tabs(["زائچہ و سوال", "ساعتِ وقت", "نقش سازی"])
 
-# انٹرفیس
-st.title("علم جفر گرینڈ ماسٹر")
-tabs = st.tabs(["زائچہ", "سوال و جواب", "موکل ساعت", "نقش سازی"])
-
-# زائچہ ٹیب
+# 1. زائچہ و سوال
 with tabs[0]:
-    st.header("زائچہ سازی")
-    n = st.text_input("سائل کا نام")
-    m = st.text_input("والدہ کا نام")
-    if st.button("زائچہ نکالیں"):
-        if n and m:
-            st.success(f"سائل: {calculate_abjad(n)} | والدہ: {calculate_abjad(m)}")
-            st.write(f"کل مجموعہ: {calculate_abjad(n) + calculate_abjad(m)}")
-        else: st.warning("نام درج کریں")
+    col1, col2 = st.columns(2)
+    with col1:
+        n = st.text_input("سائل کا نام")
+        m = st.text_input("والدہ کا نام")
+        if st.button("زائچہ نکالیں"):
+            res = sum(abjad.get(c, 0) for c in n+m)
+            st.success(f"کل مجموعہ: {res}")
+    with col2:
+        q = st.text_input("اپنا سوال")
+        if st.button("جواب"):
+            st.write(f"سطرِ ناطقہ کا عدد: {sum(abjad.get(c, 0) for c in q)}")
 
-# سوال و جواب ٹیب
+# 2. ساعتِ وقت (خودکار)
 with tabs[1]:
-    st.header("سوال و جواب")
-    q = st.text_input("اپنا سوال لکھیں")
-    if st.button("جواب حاصل کریں"):
-        if q: st.write(f"سوال کا عدد: {calculate_abjad(q)} | سطر ناطقہ کا جواب: حساب جاری ہے...")
+    st.header(f"تاریخ: {datetime.date.today()}")
+    st.write("دن اور رات کی ساعتوں کا حساب:")
+    # سادہ منطق: گھنٹے کے حساب سے ساعت کا تعین
+    hour = datetime.datetime.now().hour
+    current_saat = saat_names[hour % 7]
+    st.metric("موجودہ ساعت", current_saat)
+    st.write("نوٹ: یہ ساعت خودکار وقت کے مطابق تبدیل ہو رہی ہے۔")
 
-# موکل ساعت ٹیب
+# 3. نقش سازی
 with tabs[2]:
-    st.header("موکل ساعت")
-    st.write(f"وقت پاکستان: {datetime.datetime.now().strftime('%H:%M')}")
-    if st.button("ساعت نکالیں"):
-        info = saat_data[datetime.datetime.now().hour % 7]
-        st.success(f"ساعت: {info['ساعت']} | موکل: {info['موکل']}")
-
-# نقش سازی ٹیب
-with tabs[3]:
-    st.header("نقش سازی")
-    maqsad = st.selectbox("مقصد منتخب کریں", ["محبت", "رزق", "حفاظت"])
+    maqsad = st.selectbox("مقصد", ["محبت", "رزق", "عزت"])
     if st.button("نقش تیار کریں"):
-        st.write(f"آپ کا مقصد: {maqsad}")
-        st.table([["س", "ع", "ف"], ["ف", "س", "ع"], ["ع", "ف", "س"]])
+        st.write(f"مقصد: {maqsad} کے لیے نقشِ مثلث:")
+        # یہاں نقش کا خاکہ جو آپ کی ضرورت کے مطابق تبدیل ہوگا
+        st.code("س ع ف\nف س ع\nع ف س")
